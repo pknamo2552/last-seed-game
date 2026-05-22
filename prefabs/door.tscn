@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://do3m8lit2604t"]
 
-[ext_resource type="Script" uid="uid://dnvwi4r0mq2fk" path="res://door.gd" id="1_ba8gm"]
+[ext_resource type="Script" uid="uid://dnvwi4r0mq2fk" path="res://scripts/player_station/door.gd" id="1_ba8gm"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_v6xrn"]
 size = Vector2(3, 3)

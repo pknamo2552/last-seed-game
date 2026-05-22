@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dpttoa312m8yj"]
 
-[ext_resource type="Script" uid="uid://bjcyg4rfcxqqn" path="res://seed_pod.gd" id="1_vnw4v"]
+[ext_resource type="Script" uid="uid://bjcyg4rfcxqqn" path="res://scripts/player_station/seed_pod.gd" id="1_vnw4v"]
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_v2xm5"]
 albedo_color = Color(1, 1, 0, 1)

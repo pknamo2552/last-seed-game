@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ynq3s13bcfmc"]
 
-[ext_resource type="Script" uid="uid://b0ssr3dfeptlw" path="res://generator.gd" id="1_yybav"]
+[ext_resource type="Script" uid="uid://b0ssr3dfeptlw" path="res://scripts/player_station/generator.gd" id="1_yybav"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_opvtb"]
 

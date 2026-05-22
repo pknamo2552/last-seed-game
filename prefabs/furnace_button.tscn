@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ch8itxgsddi3e"]
 
-[ext_resource type="Script" uid="uid://fysb246vr1af" path="res://furnace_button.gd" id="1_23jem"]
+[ext_resource type="Script" uid="uid://fysb246vr1af" path="res://scripts/player_station/furnace_button.gd" id="1_23jem"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_23jem"]
 
