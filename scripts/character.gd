@@ -82,54 +82,49 @@ func _unhandled_input(event):
 		if held_object:
 			drop_object()
 		else:
-			try_pickup()
+			try_interact_or_pickup()
 
 	if Input.is_action_just_pressed("place"):
 		if held_object:
 			place_object()
 		else:
-			try_place_seed_on_station()
+			_forward_action_to_interactable("place_action")
 
 	if Input.is_action_just_pressed("dig"):
-		try_dig()
+		_forward_action_to_interactable("dig_action")
 
 	if Input.is_action_just_pressed("inventory"):
 		toggle_inventory()
 
-func try_place_seed_on_station():
+func try_interact_or_pickup():
 	if ray.is_colliding():
 		var target = ray.get_collider()
 		if not is_instance_valid(target):
 			return
-		if target.is_in_group("station") and not target.has_seed:
-			var seed_index = -1
-			for i in range(inventory.size()):
-				var item = inventory[i]
-				if item is Dictionary and item.get("label", "") == "Seed":
-					seed_index = i
-					break
-			if seed_index >= 0:
-				var seed_data = inventory[seed_index]
-				var is_healthy = seed_data["is_healthy"]
-				print("placing seed is_healthy: ", is_healthy)
-				target.place_seed(is_healthy)
-				inventory.remove_at(seed_index)
-				update_inventory_ui()
+		
+		if target is Interactable:
+			target.interact(self)
+			return
 
-func try_dig():
-	if held_object == null or not held_object.is_in_group("shovel"):
-		return
+		if target is RigidBody3D:
+			if target.is_in_group("diggable"):
+				if held_object == null or not held_object.is_in_group("shovel"):
+					return
+			var parent = target.get_parent()
+			if parent and parent.is_in_group("mount_point"):
+				parent.remove_child(target)
+				get_tree().root.add_child(target)
+			original_mount = parent if parent and parent.is_in_group("mount_point") else null
+			held_object = target
+			held_object.freeze = true
+			held_object.rotation = Vector3.ZERO
+			held_object.add_collision_exception_with(self)
+
+func _forward_action_to_interactable(action_method: String):
 	if ray.is_colliding():
 		var target = ray.get_collider()
-		if not is_instance_valid(target):
-			return
-		if target.is_in_group("diggable") and inventory.size() < max_inventory:
-			randomize()
-			var is_healthy = randi() % 10 < 4
-			print("dug seed is_healthy: ", is_healthy)
-			inventory.append({"type": "seed", "is_healthy": is_healthy, "label": "Seed"})
-			target.queue_free()
-			update_inventory_ui()
+		if is_instance_valid(target) and target.has_method(action_method):
+			target.call(action_method, self)
 
 func toggle_inventory():
 	is_inventory_open = !is_inventory_open
@@ -172,66 +167,6 @@ func take_from_inventory(index: int):
 	inventory.remove_at(index)
 	update_inventory_ui()
 	close_inventory()
-
-func try_pickup():
-	if ray.is_colliding():
-		var target = ray.get_collider()
-		if not is_instance_valid(target):
-			return
-		
-		if target.is_in_group("seed_pod"):
-			if game_manager:
-				game_manager.start_seed_minigame(target)
-			return
-		
-		if target.is_in_group("station"):
-			target.inspect()
-			return
-		
-		if target.is_in_group("bed"):
-			if game_manager:
-				game_manager.next_day()
-			return
-		
-		if target.is_in_group("generator"):
-			target.interact()
-			return
-
-		if target.is_in_group("furnace_button"):
-			var mount = target.get_mount_point()
-			if mount:
-				var has_block = false
-				for child in mount.get_children():
-					if child is RigidBody3D:
-						has_block = true
-				if has_block:
-					for child in mount.get_children():
-						if child is RigidBody3D:
-							child.queue_free()
-					var furnace = target.furnace
-					if furnace and furnace.has_node("FireEffect"):
-						var fire = furnace.get_node("FireEffect")
-						fire.visible = true
-						fire.emitting = true
-						await get_tree().create_timer(3.0).timeout
-						fire.emitting = false
-						await get_tree().create_timer(1.0).timeout
-						fire.visible = false
-			return
-
-		if target is RigidBody3D:
-			if target.is_in_group("diggable"):
-				if held_object == null or not held_object.is_in_group("shovel"):
-					return
-			var parent = target.get_parent()
-			if parent and parent.is_in_group("mount_point"):
-				parent.remove_child(target)
-				get_tree().root.add_child(target)
-			original_mount = parent if parent and parent.is_in_group("mount_point") else null
-			held_object = target
-			held_object.freeze = true
-			held_object.rotation = Vector3.ZERO
-			held_object.add_collision_exception_with(self)
 
 func drop_object():
 	var obj = held_object
@@ -315,57 +250,22 @@ func _physics_process(delta):
 		held_object.global_position = hold_position.global_position
 		held_object.rotation = Vector3.ZERO
 
+	_update_interaction_ui()
+	move_and_slide()
+
+func _update_interaction_ui():
 	if game_manager and (game_manager.minigame_active or game_manager.seed_minigame_active or game_manager.showing_result or game_manager.station_minigame_active):
 		interact_label.visible = false
-	elif ray.is_colliding():
+		return
+		
+	if ray.is_colliding():
 		var target = ray.get_collider()
 		if not is_instance_valid(target):
 			interact_label.visible = false
-		elif target.is_in_group("seed_pod"):
-			interact_label.text = "Press E to collect seed"
-			interact_label.visible = true
-		elif target.is_in_group("station"):
-			if not held_object:
-				if target.has_seed:
-					interact_label.text = "Press E to inspect"
-				else:
-					var has_plain_seed = false
-					for item in inventory:
-						if item is Dictionary and item.get("label", "") == "Seed":
-							has_plain_seed = true
-							break
-					if has_plain_seed:
-						interact_label.text = "Press Q to place seed"
-					else:
-						interact_label.text = "No seed to inspect"
-				interact_label.visible = true
-			else:
-				interact_label.visible = false
-		elif target.is_in_group("bed"):
-			interact_label.text = "Press E to sleep"
-			interact_label.visible = true
-		elif target is RigidBody3D and target.is_in_group("diggable"):
-			if held_object and held_object.is_in_group("shovel"):
-				interact_label.text = "Press F to dig"
-				interact_label.visible = true
-			elif not held_object:
-				interact_label.text = "ถือพลั่วก่อน!"
-				interact_label.visible = true
-			else:
-				interact_label.visible = false
-		elif target.is_in_group("furnace_button"):
-			var mount = target.get_mount_point()
-			if mount:
-				var has_block = false
-				for child in mount.get_children():
-					if child is RigidBody3D:
-						has_block = true
-				interact_label.text = "Press E to burn" if has_block else "No block to burn"
-				interact_label.visible = true
-			else:
-				interact_label.visible = false
-		elif target.is_in_group("generator"):
-			interact_label.text = "Press E to generate power"
+			return
+			
+		if target is Interactable:
+			interact_label.text = target.get_prompt(self)
 			interact_label.visible = true
 		elif target is RigidBody3D and not held_object:
 			interact_label.text = "Press E to interact"
@@ -374,5 +274,3 @@ func _physics_process(delta):
 			interact_label.visible = false
 	else:
 		interact_label.visible = false
-
-	move_and_slide()
