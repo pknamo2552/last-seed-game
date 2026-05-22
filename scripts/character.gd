@@ -15,7 +15,7 @@ extends CharacterBody3D
 @export var interact_label: Label
 @export var inventory_ui: Control
 
-const BLOCK_SCENE = preload("res://block.tscn")
+const BLOCK_SCENE = preload("res://scenes/block.tscn")
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var held_object: RigidBody3D = null
