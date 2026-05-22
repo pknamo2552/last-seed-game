@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dpttoa312m8yj"]
+
+[ext_resource type="Script" uid="uid://bjcyg4rfcxqqn" path="res://seed_pod.gd" id="1_vnw4v"]
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_v2xm5"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_v2xm5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v2xm5"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u1ctm"]
+
+[node name="SeedPod" type="StaticBody3D" unique_id=1401043498 groups=["seed_pod"]]
+script = ExtResource("1_vnw4v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1065877804]
+material_override = SubResource("ORMMaterial3D_v2xm5")
+mesh = SubResource("BoxMesh_v2xm5")
+surface_material_override/0 = SubResource("StandardMaterial3D_v2xm5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=181012291]
+shape = SubResource("BoxShape3D_u1ctm")

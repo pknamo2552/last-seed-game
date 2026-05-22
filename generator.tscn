@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://ynq3s13bcfmc"]
+
+[ext_resource type="Script" uid="uid://b0ssr3dfeptlw" path="res://generator.gd" id="1_yybav"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_opvtb"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yybav"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yybav"]
+radius = 2.0
+
+[node name="Generator" type="StaticBody3D" unique_id=515797118 groups=["generator"]]
+script = ExtResource("1_yybav")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=278639513]
+mesh = SubResource("BoxMesh_opvtb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1356584214]
+shape = SubResource("BoxShape3D_yybav")
+debug_color = Color(0.9839038, 0, 0.35305634, 0.41960785)
+
+[node name="DetectArea" type="Area3D" parent="." unique_id=846289025]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectArea" unique_id=893451100]
+shape = SubResource("SphereShape3D_yybav")

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bluq5l2h6duhn"]
+
+[ext_resource type="Script" uid="uid://dn5kr7x8qkjdg" path="res://station.gd" id="1_lu35c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lu35c"]
+albedo_color = Color(0, 1, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_aqy5h"]
+material = SubResource("StandardMaterial3D_lu35c")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lu35c"]
+
+[node name="Station" type="StaticBody3D" unique_id=1340127076 groups=["station"]]
+script = ExtResource("1_lu35c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=144430663]
+mesh = SubResource("BoxMesh_aqy5h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1155545868]
+shape = SubResource("BoxShape3D_lu35c")
+debug_color = Color(0.10980392, 1, 0, 0.41960785)
+
+[node name="SeedSlot" type="Node3D" parent="." unique_id=1080520266]
+
+[node name="MountPoint" type="Node3D" parent="." unique_id=1203033796]

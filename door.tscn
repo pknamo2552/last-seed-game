@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://do3m8lit2604t"]
+
+[ext_resource type="Script" uid="uid://dnvwi4r0mq2fk" path="res://door.gd" id="1_ba8gm"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_v6xrn"]
+size = Vector2(3, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ba8gm"]
+albedo_color = Color(0, 0.627451, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v6xrn"]
+albedo_color = Color(0.05490196, 0.50980395, 1, 1)
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" unique_id=1898403784]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_ba8gm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=641945629]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1262975, 1.2959013, -0.26999307)
+mesh = SubResource("QuadMesh_v6xrn")
+surface_material_override/0 = SubResource("StandardMaterial3D_ba8gm")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="MeshInstance3D" unique_id=973272159]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.060302764, -0.08300781, 0.076538086)
+material_override = SubResource("StandardMaterial3D_v6xrn")
+use_collision = true
+size = Vector3(3.1049805, 3.15625, 0.123291016)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=958005955]

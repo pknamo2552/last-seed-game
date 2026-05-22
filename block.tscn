@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dd4q6asp1e0wx"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_qncar"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_im0tn"]
+size = Vector3(0.5892792, 0.5818329, 0.51586914)
+
+[node name="Block" type="RigidBody3D" unique_id=491187751]
+continuous_cd = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=862694208]
+mesh = SubResource("BoxMesh_qncar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1544918217]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.009666443, 0.0030593872, 0.0032958984)
+shape = SubResource("BoxShape3D_im0tn")
+debug_color = Color(0.9401658, 1.0781288e-05, 0.6183732, 0.41960785)

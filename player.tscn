@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://bnyydlc43kjn5"]
+
+[ext_resource type="Script" uid="uid://cvw032b3x6758" path="res://character.gd" id="1_4flbx"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_onrkg"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i3pqv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4flbx"]
+font_size = 30
+
+[node name="Player" type="CharacterBody3D" unique_id=558728863 node_paths=PackedStringArray("ray", "hold_position", "head", "camera", "interact_label", "inventory_ui") groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8254427, 0)
+collision_layer = 5
+collision_mask = 5
+script = ExtResource("1_4flbx")
+ray = NodePath("head/Camera3D/RayCast3D")
+hold_position = NodePath("HoldPosition")
+head = NodePath("head")
+camera = NodePath("head/Camera3D")
+interact_label = NodePath("CanvasLayer/Interact")
+inventory_ui = NodePath("CanvasLayer/InventoryUI")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=498885202]
+mesh = SubResource("CapsuleMesh_onrkg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=707360500]
+shape = SubResource("CapsuleShape3D_i3pqv")
+
+[node name="head" type="Node3D" parent="." unique_id=1049407199]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.53004277, 0)
+
+[node name="Camera3D" type="Camera3D" parent="head" unique_id=2140201698]
+
+[node name="RayCast3D" type="RayCast3D" parent="head/Camera3D" unique_id=815242372]
+target_position = Vector3(0, 0, -2)
+
+[node name="HoldPosition" type="Node3D" parent="." unique_id=1174109917]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.35, -0.5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2082158303]
+
+[node name="Interact" type="Label" parent="CanvasLayer" unique_id=1123469213]
+offset_left = 510.0
+offset_top = 319.0
+offset_right = 650.0
+offset_bottom = 368.0
+text = "Press E to interact
+"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Crosshair" type="Label" parent="CanvasLayer" unique_id=1633849108]
+offset_left = 555.0
+offset_top = 282.0
+offset_right = 592.0
+offset_bottom = 324.0
+text = "."
+label_settings = SubResource("LabelSettings_4flbx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InventoryUI" type="Control" parent="CanvasLayer" unique_id=1762388708]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 442.0
+offset_top = 48.0
+offset_right = 482.0
+offset_bottom = 88.0
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/InventoryUI" unique_id=1195372696]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/InventoryUI/GridContainer" unique_id=761927126]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="CanvasLayer/InventoryUI/GridContainer" unique_id=619966526]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="CanvasLayer/InventoryUI/GridContainer" unique_id=479866747]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="CanvasLayer/InventoryUI/GridContainer" unique_id=1783456931]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Button5" type="Button" parent="CanvasLayer/InventoryUI/GridContainer" unique_id=1535313595]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Button6" type="Button" parent="CanvasLayer/InventoryUI/GridContainer" unique_id=1748875497]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Button7" type="Button" parent="CanvasLayer/InventoryUI/GridContainer" unique_id=222082531]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Button8" type="Button" parent="CanvasLayer/InventoryUI/GridContainer" unique_id=1106821970]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[node name="Button9" type="Button" parent="CanvasLayer/InventoryUI/GridContainer" unique_id=895588226]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+
+[connection signal="pressed" from="CanvasLayer/InventoryUI/GridContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryUI/GridContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryUI/GridContainer/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryUI/GridContainer/Button4" to="." method="_on_button_4_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryUI/GridContainer/Button5" to="." method="_on_button_5_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryUI/GridContainer/Button6" to="." method="_on_button_6_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryUI/GridContainer/Button7" to="." method="_on_button_7_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryUI/GridContainer/Button8" to="." method="_on_button_8_pressed"]
+[connection signal="pressed" from="CanvasLayer/InventoryUI/GridContainer/Button9" to="." method="_on_button_9_pressed"]

@@ -1,0 +1,214 @@
+[gd_scene format=3 uid="uid://dg6n3m82a5rny"]
+
+[ext_resource type="PackedScene" uid="uid://bnyydlc43kjn5" path="res://player.tscn" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://cpjr681vaa1j3" path="res://object.tscn" id="2_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://do3m8lit2604t" path="res://door.tscn" id="3_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://dd4q6asp1e0wx" path="res://block.tscn" id="4_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://bggqnjyhmrac4" path="res://furnace.tscn" id="5_dwbse"]
+[ext_resource type="PackedScene" uid="uid://ch8itxgsddi3e" path="res://furnace_button.tscn" id="6_pkg7o"]
+[ext_resource type="Script" uid="uid://vbi1orwvogtl" path="res://game_manager.gd" id="7_pkg7o"]
+[ext_resource type="PackedScene" uid="uid://ynq3s13bcfmc" path="res://generator.tscn" id="8_gbfbk"]
+[ext_resource type="PackedScene" uid="uid://dpttoa312m8yj" path="res://seed_pod.tscn" id="9_ioo17"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3sb7"]
+albedo_color = Color(0.6156863, 0.6509804, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fj7yv"]
+material = SubResource("StandardMaterial3D_f3sb7")
+size = Vector2(15, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fj7yv"]
+size = Vector3(15.018677, 0, 15)
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_f3sb7"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fj7yv"]
+material = SubResource("ORMMaterial3D_f3sb7")
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_f3sb7"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="GDScript" id="GDScript_dwbse"]
+script/source = "extends Node3D
+
+func _ready():
+	for child in get_children():
+		if child is RigidBody3D:
+			child.freeze = true
+
+func _on_area_3d_body_entered(body):
+	if body is CharacterBody3D:
+		for child in get_children():
+			if child is RigidBody3D:
+				child.add_collision_exception_with(body)
+				child.freeze = false
+
+func _on_area_3d_body_exited(body):
+	if body is CharacterBody3D:
+		for child in get_children():
+			if child is RigidBody3D:
+				child.remove_collision_exception_with(body)
+"
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pkg7o"]
+height = 2.052246
+radius = 0.5991211
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tlwt5"]
+size = Vector3(3.1517944, 3.7306976, 2.6679792)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gbfbk"]
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_ioo17"]
+font_size = 24
+
+[sub_resource type="Environment" id="Environment_ioo17"]
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.5
+
+[node name="Node3D" type="Node3D" unique_id=844461430]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1044933045]
+mesh = SubResource("PlaneMesh_fj7yv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=2055340215]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=683819760]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.004760742, 0, 0)
+shape = SubResource("BoxShape3D_fj7yv")
+
+[node name="Player" parent="." unique_id=558728863 instance=ExtResource("1_f3sb7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16317785, 1.3011019, -4.0336795)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=153585081]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51039875, 5.063792)
+mesh = SubResource("BoxMesh_fj7yv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2" unique_id=440207154]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D" unique_id=1492242828]
+shape = SubResource("ConcavePolygonShape3D_f3sb7")
+
+[node name="MountPoint" type="Node3D" parent="." unique_id=1158387259 groups=["mount_point"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.09728116, 1.1568172, 5.1028004)
+script = SubResource("GDScript_dwbse")
+
+[node name="RigidBody3D" parent="MountPoint" unique_id=950776774 groups=["shovel"] instance=ExtResource("2_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06385259, 0.07400739, -0.050118446)
+
+[node name="Area3D" type="Area3D" parent="MountPoint" unique_id=368972703]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.043943763, -0.0591259)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MountPoint" unique_id=733490575]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -0.063917965, 0.08057153, -0.050726414)
+shape = SubResource("CylinderShape3D_pkg7o")
+
+[node name="AnimatableBody3D" parent="." unique_id=1898403784 node_paths=PackedStringArray("detect_area") instance=ExtResource("3_tlwt5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02828145, 0.44393492, 1.0751493)
+open_position = Vector3(4, 0, 0)
+detect_area = NodePath("../Doorzone")
+
+[node name="Doorzone" type="Area3D" parent="." unique_id=476840284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.9370883)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Doorzone" unique_id=88986417]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06265259, 1.385582, -2.0482485)
+shape = SubResource("BoxShape3D_tlwt5")
+debug_color = Color(0.6911543, 0.49781436, 5.7756904e-07, 0.41960785)
+
+[node name="Block" parent="." unique_id=491187751 groups=["diggable"] instance=ExtResource("4_aqk2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.590736, 0.5000001, 3.1716304)
+
+[node name="Furnace" parent="." unique_id=817707037 instance=ExtResource("5_dwbse")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4935203, 0.8051537, 2.3806148)
+
+[node name="FurnaceButton" parent="." unique_id=1583816410 node_paths=PackedStringArray("furnace") instance=ExtResource("6_pkg7o")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.5938277, 0.24514592, 2.3648646)
+furnace = NodePath("../Furnace")
+
+[node name="GameManager" type="Node3D" parent="." unique_id=1943743446 groups=["game_manager"]]
+script = ExtResource("7_pkg7o")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="GameManager" unique_id=594620985]
+
+[node name="EnergyBar" type="ProgressBar" parent="GameManager/CanvasLayer" unique_id=1343727480]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 47.0
+value = 100.0
+
+[node name="DayLabel" type="Label" parent="GameManager/CanvasLayer" unique_id=2066786550]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Day 1"
+label_settings = SubResource("LabelSettings_gbfbk")
+
+[node name="MinigamePanel" type="Panel" parent="GameManager/CanvasLayer" unique_id=1405287542]
+custom_minimum_size = Vector2(300, 200)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonPrompt" type="Label" parent="GameManager/CanvasLayer/MinigamePanel" unique_id=1375034135]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -11.5
+offset_right = 31.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press : ?"
+label_settings = SubResource("LabelSettings_ioo17")
+
+[node name="Generator" parent="." unique_id=515797118 instance=ExtResource("8_gbfbk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.175266, 0.49999952, -1.8633194)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=617603064]
+transform = Transform3D(0.19593677, -0.3392971, 0.9200469, 0.66272795, 0.7373513, 0.13078506, -0.7227728, 0.5841152, 0.36933592, -1.4946141, 3.3226333, -1.3917971)
+light_energy = 0.15
+sky_mode = 1
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="DirectionalLight3D" unique_id=1617198657]
+transform = Transform3D(0.3554121, 0.2916368, -0.88804865, 0.8282123, 0.342166, 0.44383264, 0.43329784, -0.893236, -0.11992717, -4.5303206, 5.0763664, -2.497566)
+light_energy = 2.0
+sky_mode = 1
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="DirectionalLight3D" unique_id=1570890553]
+transform = Transform3D(0.60033536, 0.054461673, 0.797892, 0.489915, -0.8136128, -0.31307817, 0.6321241, 0.57885104, -0.515122, -1.494614, 1.904891, 2.3841858e-07)
+light_energy = 2.0
+sky_mode = 1
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="DirectionalLight3D/DirectionalLight3D2" unique_id=1795628194]
+transform = Transform3D(0.3554121, 0.2916368, -0.88804865, 0.8282123, 0.342166, 0.44383264, 0.43329784, -0.893236, -0.11992717, -4.5303206, 5.0763664, -2.497566)
+light_energy = 2.0
+sky_mode = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2009741213]
+environment = SubResource("Environment_ioo17")
+
+[node name="SeedPod" parent="." unique_id=1401043498 instance=ExtResource("9_ioo17")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.132738, 0.5, -5.2839966)
+
+[connection signal="body_entered" from="MountPoint/Area3D" to="MountPoint" method="_on_area_3d_body_entered"]
