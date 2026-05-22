@@ -1,17 +1,22 @@
 [gd_scene format=3 uid="uid://cpjr681vaa1j3"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_rfk7t"]
+[ext_resource type="Texture2D" uid="uid://bedyj8nciykk6" path="res://assets/model/variation-a.png" id="1_cbfvs"]
+[ext_resource type="ArrayMesh" uid="uid://dtnk4tow17s0v" path="res://assets/model/shovel/tool-shovel.obj" id="1_pkda2"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_l2ofb"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a0y2b"]
+albedo_texture = ExtResource("1_cbfvs")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_pkda2"]
+points = PackedVector3Array(-0.0354635, 0.19998531, -0.009151558, -0.0354635, 0.19998531, 0.0154635, -0.0354635, 0.26223767, -0.009151558, -0.02790286, 0.012660532, -0.012902396, 0.0354635, 0.19998531, 0.0154635, -0.0354635, 0.26223767, 0.0154635, -0.02790286, 0.012660532, 0.012899368, -0.024736973, 0.0031509395, 0.012899368, -0.015232366, 0, 0.012899368, -0.026597627, 0.2830452, -0.009151558, -0.019155012, 0.22365993, -0.0154635, -0.02790286, 0.027308144, -0.012902396, -0.019155012, 0.20628719, -0.0154635, -0.024736973, 0.0031509395, -0.012902396, 0.0354635, 0.19998531, -0.009151558, 0.0354635, 0.26223767, 0.0154635, 0.015225422, 0, 0.012899368, 0.024730027, 0.0031509395, 0.012899368, 0.027895916, 0.012660532, 0.012899368, -0.026597627, 0.2830452, 0.0154635, -0.015232366, 0, -0.012902396, 0, 0.29, -0.009151558, 0.019148067, 0.22365993, -0.0154635, 0.019148067, 0.20628719, -0.0154635, 0.027895916, 0.012660532, -0.012902396, 0.0354635, 0.26223767, -0.009151558, 0.026597627, 0.2830452, 0.0154635, 0.015225422, 0, -0.012902396, 0.024730027, 0.0031509395, -0.012902396, 0, 0.29, 0.0154635, 0.026597627, 0.2830452, -0.009151558, 0.027895916, 0.027308144, -0.012902396)
 
 [node name="RigidBody3D" type="RigidBody3D" unique_id=950776774]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25239623, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=699422479]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
-mesh = SubResource("CylinderMesh_rfk7t")
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_a0y2b")
+mesh = ExtResource("1_pkda2")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=52557974]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
-shape = SubResource("CylinderShape3D_l2ofb")
-debug_color = Color(0.91763026, 7.171482e-05, 0.70685154, 0.41960785)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=536810652]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_pkda2")
+debug_color = Color(7.797182e-06, 0.584892, 0.78130835, 0.41960785)
